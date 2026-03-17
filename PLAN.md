@@ -109,4 +109,5 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Added attachment-aware file access checks and display in professor/student dashboards
 - ✅ Added configurable persistent upload directory (`UPLOAD_DIR`) + Render disk mount config
 - ✅ Added legacy upload-path fallback for file retrieval compatibility
-- ⏳ Next: redeploy latest commit and verify old/new file retrieval behavior
+- ✅ Updated attachment/file access endpoint to force downloads instead of inline open
+- ⏳ Next: redeploy latest commit and verify download behavior for submissions and graded files

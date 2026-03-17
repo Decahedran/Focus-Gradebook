@@ -89,6 +89,7 @@ app.get("/uploads/:filename", requireAuth, async (req, res) => {
     include: {
       assignment: { include: { course: true } },
       grade: true,
+      attachments: true,
     },
   });
 
@@ -116,11 +117,16 @@ app.get("/uploads/:filename", requireAuth, async (req, res) => {
     return;
   }
 
-  res.sendFile(resolvedPath, (error) => {
+  const attachmentMatch = submission.attachments.find((a) => a.storedFileName === filename);
+  const downloadName = attachmentMatch?.originalFileName
+    ?? (submission.grade?.gradedStoredFileName === filename ? submission.grade.gradedOriginalName : undefined)
+    ?? (submission.storedFileName === filename ? submission.originalFileName : filename);
+
+  res.download(resolvedPath, downloadName, (error) => {
     if (error) {
-      console.error("sendFile error", error);
+      console.error("download error", error);
       if (!res.headersSent) {
-        res.status(500).render("error", { message: "Could not open this file right now." });
+        res.status(500).render("error", { message: "Could not download this file right now." });
       }
     }
   });

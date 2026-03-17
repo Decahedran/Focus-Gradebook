@@ -132,6 +132,10 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 ### Fixed
 - Added legacy upload path fallback when serving files (`UPLOAD_DIR` first, then `./uploads`) to recover files from older path conventions after deployment changes
 
+### Changed
+- Switched `/uploads/:filename` behavior from inline open to forced file download
+- Download now preserves original file names when available (submission attachments and graded files)
+
 ### Notes
 - Existing files uploaded before persistent disk setup may still be unavailable (404) if physically lost from ephemeral storage.
-- Redeploy latest commit and submit new files after disk mount to verify durable access.
+- Redeploy latest commit to apply download behavior.
