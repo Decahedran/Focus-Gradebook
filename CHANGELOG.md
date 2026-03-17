@@ -78,5 +78,12 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 - Patched Render build command to install dev dependencies during build (`npm ci --include=dev`) so TypeScript type packages are available
 - Resolves compile-time failures for missing `@types/*` modules on Render
 
+### Fixed
+- Moved TypeScript compiler/tooling and required `@types/*` packages into `dependencies` to support Render builds that run plain `npm ci` in production mode
+- Eliminates compile failures for missing type declarations during `tsc` on Render
+
+### Verified
+- `npm install && npm run build` passes after dependency scope fix
+
 ### Notes
-- Previous failed deploy was on older commit (`b5c08db`). Redeploy latest commit after this fix.
+- Render is currently using build command `npm ci && npm run build`; latest commit now supports that path.

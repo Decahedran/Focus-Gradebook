@@ -99,5 +99,6 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Repository pushed to GitHub and Blueprint started
 - ✅ Hotfix applied for production-safe Prisma client imports (`@prisma/client`)
 - ✅ Identified Render build failure root cause (devDependencies omitted during production npm ci)
-- ✅ Applied fix in `render.yaml` (`npm ci --include=dev && npm run build`)
+- ✅ Applied resilience fix by moving TS build-time packages to `dependencies`
+- ✅ Local build validated after dependency scope change
 - ⏳ Next: redeploy latest commit and verify service boot
