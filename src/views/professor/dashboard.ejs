@@ -47,6 +47,9 @@
             <strong><%= course.code %></strong> - <%= course.name %>
             <br />
             <a class="button-link" href="/professor/courses/<%= course.id %>">Open Course</a>
+            <form method="POST" action="/professor/courses/<%= course.id %>/delete" onsubmit="return confirm('Delete this course and all related assignments/submissions?');" style="margin-top:.4rem;">
+              <button type="submit" class="secondary">Delete Course</button>
+            </form>
           </li>
         <% }) %>
       </ul>
@@ -57,7 +60,12 @@
     <h3>Student Directory</h3>
     <ul>
       <% students.forEach((s) => { %>
-        <li><%= s.email %></li>
+        <li>
+          <%= s.email %>
+          <form method="POST" action="/professor/students/<%= s.id %>/delete" onsubmit="return confirm('Delete this student account and related enrollments/submissions/grades?');" style="margin-top:.35rem;">
+            <button type="submit" class="secondary">Delete Student</button>
+          </form>
+        </li>
       <% }) %>
     </ul>
   </section>

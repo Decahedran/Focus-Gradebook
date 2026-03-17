@@ -36,7 +36,8 @@ Build a deployable Gradebook web app (Render-ready) with:
 - [x] RBAC middleware and protected routes
 
 ### Phase 2 — Academic Core
-- [x] Course CRUD (create + view; strictly professor-owned)
+- [x] Course CRUD (create + view + delete; strictly professor-owned)
+- [x] Student management (create + delete)
 - [x] Assign students to courses
 - [x] Assignment CRUD (create + view) with fields:
   - title (required)
@@ -103,4 +104,5 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Local build validated after dependency scope change
 - ✅ Fixed Prisma runtime initialization crash on Render (adapter-based client options)
 - ✅ Fixed production session/cookie behavior for Render proxy setup
-- ⏳ Next: redeploy latest commit and verify login flow reaches dashboard
+- ✅ Added professor ability to delete courses and delete student accounts
+- ⏳ Next: redeploy latest commit and verify delete flows in live app

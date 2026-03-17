@@ -106,6 +106,36 @@ professorRouter.post("/courses", async (req, res) => {
   res.redirect("/professor/dashboard");
 });
 
+professorRouter.post("/courses/:courseId/delete", async (req, res) => {
+  const courseId = String(req.params.courseId);
+  const professorId = req.session.user!.id;
+
+  const course = await prisma.course.findFirst({
+    where: { id: courseId, professorId },
+  });
+
+  if (!course) {
+    res.status(404).render("error", { message: "Course not found or not owned by you." });
+    return;
+  }
+
+  await prisma.course.delete({ where: { id: course.id } });
+  res.redirect("/professor/dashboard");
+});
+
+professorRouter.post("/students/:studentId/delete", async (req, res) => {
+  const studentId = String(req.params.studentId);
+
+  const student = await prisma.user.findUnique({ where: { id: studentId } });
+  if (!student || student.role !== "STUDENT") {
+    res.status(404).render("error", { message: "Student not found." });
+    return;
+  }
+
+  await prisma.user.delete({ where: { id: student.id } });
+  res.redirect("/professor/dashboard");
+});
+
 professorRouter.get("/courses/:courseId", async (req, res) => {
   const courseId = req.params.courseId;
   const professorId = req.session.user!.id;

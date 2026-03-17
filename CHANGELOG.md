@@ -102,5 +102,10 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 ### Verified
 - `npm run build` passes after session/proxy configuration fix
 
+### Added
+- Added professor route to delete owned courses (`POST /professor/courses/:courseId/delete`)
+- Added professor route to delete student accounts (`POST /professor/students/:studentId/delete`)
+- Added delete actions/buttons in professor dashboard and course view with confirmation prompts
+
 ### Notes
-- Redeploy latest commit to apply login/session fix.
+- Redeploy latest commit to apply new course/student deletion features.

@@ -1,6 +1,9 @@
 <%- include('../partials/header', { title: 'Course' }) %>
 <h2><%= course.code %> — <%= course.name %></h2>
 <p><a class="button-link" href="/professor/dashboard">Back to Dashboard</a></p>
+<form method="POST" action="/professor/courses/<%= course.id %>/delete" onsubmit="return confirm('Delete this course and all related assignments/submissions?');" style="max-width:320px;margin-bottom:1rem;">
+  <button type="submit" class="secondary">Delete Course</button>
+</form>
 
 <div class="grid">
   <section class="card">
