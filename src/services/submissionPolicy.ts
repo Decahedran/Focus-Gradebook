@@ -1,4 +1,4 @@
-import { Assignment, AssignmentExtension } from "../generated/prisma/client";
+import { Assignment, AssignmentExtension } from "@prisma/client";
 
 export function getEffectiveDueDate(assignment: Assignment, extension?: AssignmentExtension | null): Date {
   if (extension && extension.extendedDueAt > assignment.dueAt) {

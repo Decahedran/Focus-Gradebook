@@ -65,5 +65,14 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 ### Verified
 - `npm run build` passes after deployment wiring changes
 
+### Fixed
+- Patched production Prisma import strategy to use stable `@prisma/client` runtime path
+- Replaced custom generated-client imports (`src/generated/prisma`) that could fail after TypeScript compile in Render runtime
+- Simplified DB client initialization to standard `new PrismaClient()` for compatibility with Render startup
+
+### Verified
+- `npx prisma generate` passes with client output in `node_modules/@prisma/client`
+- `npm run build` passes after Prisma import/runtime hotfix
+
 ### Notes
-- Project is deploy-ready. Next operational step is GitHub push + Render Blueprint creation + seed env configuration.
+- Repository push + Blueprint init completed; redeploy required to apply hotfix commit.

@@ -96,4 +96,6 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Full MVP scaffold implemented (auth, courses, assignments, submissions, grading, extensions)
 - ✅ TypeScript build passing
 - ✅ Render deployment wiring completed (`render.yaml`, migration files, deploy scripts, README)
-- ⏳ Next: push repo to GitHub + create Render Blueprint deployment + set professor seed credentials
+- ✅ Repository pushed to GitHub and Blueprint started
+- ✅ Hotfix applied for production-safe Prisma client imports (`@prisma/client`)
+- ⏳ Next: trigger Render redeploy from latest commit and verify service boot
