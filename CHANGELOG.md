@@ -85,5 +85,13 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 ### Verified
 - `npm install && npm run build` passes after dependency scope fix
 
+### Fixed
+- Resolved runtime crash on Render by restoring Prisma 7 adapter-based client initialization
+- Updated DB client construction to `new PrismaClient({ adapter: new PrismaPg({ connectionString }) })`
+- Fix addresses startup error: `PrismaClient needs to be constructed with a non-empty, valid PrismaClientOptions`
+
+### Verified
+- `npm run build` passes after Prisma adapter initialization fix
+
 ### Notes
-- Render is currently using build command `npm ci && npm run build`; latest commit now supports that path.
+- Redeploy latest commit to apply runtime startup fix.

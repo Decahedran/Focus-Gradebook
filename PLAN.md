@@ -101,4 +101,5 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Identified Render build failure root cause (devDependencies omitted during production npm ci)
 - ✅ Applied resilience fix by moving TS build-time packages to `dependencies`
 - ✅ Local build validated after dependency scope change
+- ✅ Fixed Prisma runtime initialization crash on Render (adapter-based client options)
 - ⏳ Next: redeploy latest commit and verify service boot
