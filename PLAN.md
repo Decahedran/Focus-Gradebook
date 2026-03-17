@@ -107,4 +107,5 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Added professor ability to delete courses and delete student accounts
 - ✅ Added multi-file student submission support (up to 10 attachments per submission)
 - ✅ Added attachment-aware file access checks and display in professor/student dashboards
-- ⏳ Next: redeploy latest commit and verify multi-file submission and viewing in live app
+- ✅ Added configurable persistent upload directory (`UPLOAD_DIR`) + Render disk mount config
+- ⏳ Next: redeploy latest commit and verify persistent file access across restarts

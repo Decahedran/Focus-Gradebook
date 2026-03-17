@@ -123,5 +123,12 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 - Updated professor assignment view to show all submitted files per student submission
 - Updated protected file route to authorize file access for attachment records too
 
+### Fixed
+- Added configurable upload storage path via `UPLOAD_DIR`
+- Added shared storage config module to ensure upload directory exists at startup
+- Updated file serving route to read from configured upload directory
+- Added Render persistent disk mount configuration for uploads (`focus-gradebook-uploads`)
+
 ### Notes
-- Redeploy latest commit to apply multi-file submission support and migration.
+- Existing files uploaded before persistent disk setup may be unavailable (404) because they were stored on ephemeral filesystem.
+- Redeploy latest commit and submit new files after disk mount to verify durable access.

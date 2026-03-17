@@ -8,6 +8,10 @@ services:
     startCommand: npm run start:render
     healthCheckPath: /login
     autoDeploy: true
+    disks:
+      - name: focus-gradebook-uploads
+        mountPath: /opt/render/project/src/data/uploads
+        sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
@@ -19,6 +23,8 @@ services:
         generateValue: true
       - key: PORT
         value: 10000
+      - key: UPLOAD_DIR
+        value: /opt/render/project/src/data/uploads
       - key: SEED_ADMIN_EMAIL
         sync: false
       - key: SEED_ADMIN_PASSWORD

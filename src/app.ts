@@ -2,6 +2,7 @@ import express from "express";
 import session from "express-session";
 import path from "path";
 import fs from "fs";
+import { uploadDir } from "./config/storage";
 import PgSession from "connect-pg-simple";
 import pg from "pg";
 import { env } from "./config/env";
@@ -106,7 +107,7 @@ app.get("/uploads/:filename", requireAuth, async (req, res) => {
     return;
   }
 
-  const absolutePath = path.join(process.cwd(), "uploads", filename);
+  const absolutePath = path.join(uploadDir, filename);
   if (!fs.existsSync(absolutePath)) {
     res.status(404).render("error", { message: "File record exists, but file is missing from storage." });
     return;

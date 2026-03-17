@@ -10,6 +10,7 @@ const envSchema = z.object({
   SESSION_SECRET: z.string().min(16, "SESSION_SECRET must be at least 16 chars"),
   SEED_ADMIN_EMAIL: z.string().email().default("professor@focusgradebook.com"),
   SEED_ADMIN_PASSWORD: z.string().min(8).default("ChangeMe123!"),
+  UPLOAD_DIR: z.string().default("uploads"),
 });
 
 export const env = envSchema.parse(process.env);

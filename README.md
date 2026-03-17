@@ -40,6 +40,8 @@ In the Render web service, set:
 
 Everything else is pre-configured in `render.yaml`.
 
+Also verify a persistent disk is mounted for uploads (`focus-gradebook-uploads`) and `UPLOAD_DIR` is set to that mount path.
+
 ### 4) Deploy
 Build runs:
 - `npm ci && npm run build`
@@ -62,9 +64,10 @@ Start runs:
    - `npm run dev`
 
 ## Upload Storage Notes
-Current MVP stores uploaded files on local disk (`/uploads`).
-- This is fine for initial deployment but **not durable** on ephemeral instances.
-- Next upgrade: move uploads to S3-compatible storage (Cloudflare R2 / Supabase Storage / AWS S3).
+Current MVP stores uploaded files on disk via configurable `UPLOAD_DIR`.
+- In Render, this should point to the mounted persistent disk path.
+- If not mounted, uploaded files can disappear on restart/redeploy.
+- Future upgrade path: S3-compatible storage (Cloudflare R2 / Supabase Storage / AWS S3).
 
 ## Security Notes
 - Set a strong `SESSION_SECRET`
