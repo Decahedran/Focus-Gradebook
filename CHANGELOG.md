@@ -136,6 +136,12 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 - Switched `/uploads/:filename` behavior from inline open to forced file download
 - Download now preserves original file names when available (submission attachments and graded files)
 
+### Added
+- Enhanced professor assignment submissions page to display assignment metadata:
+  - assignment description
+  - points possible
+  - extra points possible
+
 ### Notes
 - Existing files uploaded before persistent disk setup may still be unavailable (404) if physically lost from ephemeral storage.
-- Redeploy latest commit to apply download behavior.
+- Redeploy latest commit to apply assignment-detail visibility updates.

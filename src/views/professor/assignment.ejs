@@ -1,6 +1,12 @@
 <%- include('../partials/header', { title: 'Assignment' }) %>
 <h2><%= assignment.title %></h2>
 <p class="small">Course: <%= assignment.course.code %> | Due: <%= assignment.dueAt.toLocaleString() %></p>
+<section class="card" style="margin-bottom:1rem;">
+  <h3>Assignment Details</h3>
+  <p><strong>Description:</strong> <%= assignment.description %></p>
+  <p><strong>Points Possible:</strong> <%= assignment.pointsValue %></p>
+  <p><strong>Extra Points Possible:</strong> <%= assignment.extraPointsPossible ?? 0 %></p>
+</section>
 <p><a class="button-link" href="/professor/courses/<%= assignment.course.id %>">Back to Course</a></p>
 
 <div class="grid">
