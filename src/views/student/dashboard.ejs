@@ -40,10 +40,16 @@
               </td>
               <td>
                 <% if (mySubmission) { %>
-                  Submitted: <a href="/uploads/<%= mySubmission.storedFileName %>"><%= mySubmission.originalFileName %></a>
+                  <p class="small">Submitted files:</p>
+                  <ul>
+                    <% mySubmission.attachments.forEach((file) => { %>
+                      <li><a href="/uploads/<%= file.storedFileName %>"><%= file.originalFileName %></a></li>
+                    <% }) %>
+                  </ul>
                 <% } else if (a.canSubmit) { %>
                   <form method="POST" action="/student/assignments/<%= a.id %>/submit" enctype="multipart/form-data">
-                    <input type="file" name="submissionFile" required />
+                    <input type="file" name="submissionFiles" required multiple />
+                    <p class="small">You can upload up to 10 files.</p>
                     <button type="submit">Submit</button>
                   </form>
                 <% } else { %>

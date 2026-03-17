@@ -47,7 +47,7 @@ Build a deployable Gradebook web app (Render-ready) with:
   - dueAt (required date+time)
 
 ### Phase 3 — Submission + Grading
-- [x] Student assignment submission upload (one submission per assignment)
+- [x] Student assignment submission upload (one submission per assignment, multiple attachments)
 - [x] Submission window enforcement (cannot submit after deadline)
 - [x] Professor can add assignment extension with:
   - extendedDueAt (new date+time)
@@ -105,5 +105,6 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Fixed Prisma runtime initialization crash on Render (adapter-based client options)
 - ✅ Fixed production session/cookie behavior for Render proxy setup
 - ✅ Added professor ability to delete courses and delete student accounts
-- ✅ Added file-view resilience and improved submission grade-table readability
-- ⏳ Next: redeploy latest commit and verify upload viewing + grading layout in live app
+- ✅ Added multi-file student submission support (up to 10 attachments per submission)
+- ✅ Added attachment-aware file access checks and display in professor/student dashboards
+- ⏳ Next: redeploy latest commit and verify multi-file submission and viewing in live app

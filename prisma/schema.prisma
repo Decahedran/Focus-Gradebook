@@ -98,9 +98,23 @@ model Submission {
 
   assignment        Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
   student           User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  attachments       SubmissionAttachment[]
   grade             Grade?
 
   @@unique([assignmentId, studentId])
+}
+
+model SubmissionAttachment {
+  id               String     @id @default(cuid())
+  submissionId     String
+  originalFileName String
+  storedFileName   String     @unique
+  mimeType         String
+  createdAt        DateTime   @default(now())
+
+  submission       Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@index([submissionId])
 }
 
 model Grade {

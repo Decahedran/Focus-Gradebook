@@ -248,6 +248,7 @@ professorRouter.get("/assignments/:assignmentId", async (req, res) => {
         include: {
           student: true,
           grade: true,
+          attachments: { orderBy: { createdAt: "asc" } },
         },
         orderBy: { submittedAt: "desc" },
       },

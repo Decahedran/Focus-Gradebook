@@ -79,7 +79,11 @@ app.get("/uploads/:filename", requireAuth, async (req, res) => {
 
   const submission = await prisma.submission.findFirst({
     where: {
-      OR: [{ storedFileName: filename }, { grade: { is: { gradedStoredFileName: filename } } }],
+      OR: [
+        { storedFileName: filename },
+        { attachments: { some: { storedFileName: filename } } },
+        { grade: { is: { gradedStoredFileName: filename } } },
+      ],
     },
     include: {
       assignment: { include: { course: true } },

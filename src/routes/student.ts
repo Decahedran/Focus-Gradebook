@@ -20,7 +20,10 @@ studentRouter.get("/dashboard", async (req, res) => {
             include: {
               submissions: {
                 where: { studentId },
-                include: { grade: true },
+                include: {
+                  grade: true,
+                  attachments: { orderBy: { createdAt: "asc" } },
+                },
               },
             },
             orderBy: { dueAt: "asc" },
@@ -58,12 +61,13 @@ studentRouter.get("/dashboard", async (req, res) => {
   res.render("student/dashboard", { courses });
 });
 
-studentRouter.post("/assignments/:assignmentId/submit", upload.single("submissionFile"), async (req, res) => {
+studentRouter.post("/assignments/:assignmentId/submit", upload.array("submissionFiles", 10), async (req, res) => {
   const studentId = req.session.user!.id;
   const assignmentId = String(req.params.assignmentId);
 
-  if (!req.file) {
-    res.status(400).render("error", { message: "Submission file is required." });
+  const files = (req.files as Express.Multer.File[]) || [];
+  if (!files.length) {
+    res.status(400).render("error", { message: "At least one submission file is required." });
     return;
   }
 
@@ -113,13 +117,22 @@ studentRouter.post("/assignments/:assignmentId/submit", upload.single("submissio
     return;
   }
 
+  const firstFile = files[0];
+
   await prisma.submission.create({
     data: {
       assignmentId,
       studentId,
-      originalFileName: req.file.originalname,
-      storedFileName: req.file.filename,
-      mimeType: req.file.mimetype,
+      originalFileName: firstFile.originalname,
+      storedFileName: firstFile.filename,
+      mimeType: firstFile.mimetype,
+      attachments: {
+        create: files.map((file) => ({
+          originalFileName: file.originalname,
+          storedFileName: file.filename,
+          mimeType: file.mimetype,
+        })),
+      },
     },
   });
 

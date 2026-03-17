@@ -55,7 +55,13 @@
           <% assignment.submissions.forEach((sub) => { %>
             <tr>
               <td><%= sub.student.email %></td>
-              <td><a href="/uploads/<%= sub.storedFileName %>"><%= sub.originalFileName %></a></td>
+              <td>
+                <ul>
+                  <% sub.attachments.forEach((file) => { %>
+                    <li><a href="/uploads/<%= file.storedFileName %>"><%= file.originalFileName %></a></li>
+                  <% }) %>
+                </ul>
+              </td>
               <td><%= sub.submittedAt.toLocaleString() %></td>
               <td class="grade-cell">
                 <form method="POST" action="/professor/submissions/<%= sub.id %>/grade" enctype="multipart/form-data">

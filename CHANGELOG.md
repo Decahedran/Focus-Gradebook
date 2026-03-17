@@ -115,6 +115,13 @@ All notable changes to **Focus Gradebook** will be documented in this file.
   - Added horizontal table wrapper for overflow
   - Increased minimum width for grade column/form controls to prevent squishing
 
+### Added
+- Implemented multi-file student submission support (up to 10 files per assignment submission)
+- Added new `SubmissionAttachment` model/table for normalized attachment storage
+- Added migration `0002_submission_attachments` with backfill of existing legacy submission files
+- Updated student dashboard to upload/select multiple files and display all submitted attachments
+- Updated professor assignment view to show all submitted files per student submission
+- Updated protected file route to authorize file access for attachment records too
+
 ### Notes
-- Current student submission flow supports a single attachment per assignment submission.
-- Redeploy latest commit to apply file-view and grade-table layout fixes.
+- Redeploy latest commit to apply multi-file submission support and migration.
