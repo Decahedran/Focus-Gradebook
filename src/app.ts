@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import path from "path";
+import fs from "fs";
 import PgSession from "connect-pg-simple";
 import pg from "pg";
 import { env } from "./config/env";
@@ -101,7 +102,20 @@ app.get("/uploads/:filename", requireAuth, async (req, res) => {
     return;
   }
 
-  res.sendFile(path.join(process.cwd(), "uploads", filename));
+  const absolutePath = path.join(process.cwd(), "uploads", filename);
+  if (!fs.existsSync(absolutePath)) {
+    res.status(404).render("error", { message: "File record exists, but file is missing from storage." });
+    return;
+  }
+
+  res.sendFile(absolutePath, (error) => {
+    if (error) {
+      console.error("sendFile error", error);
+      if (!res.headersSent) {
+        res.status(500).render("error", { message: "Could not open this file right now." });
+      }
+    }
+  });
 });
 
 app.use((_req, res) => {

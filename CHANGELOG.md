@@ -107,5 +107,14 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 - Added professor route to delete student accounts (`POST /professor/students/:studentId/delete`)
 - Added delete actions/buttons in professor dashboard and course view with confirmation prompts
 
+### Fixed
+- Improved upload file viewing reliability:
+  - Added explicit missing-file handling in `/uploads/:filename`
+  - Added `sendFile` callback error handling with friendly fallback message
+- Improved professor submission table layout:
+  - Added horizontal table wrapper for overflow
+  - Increased minimum width for grade column/form controls to prevent squishing
+
 ### Notes
-- Redeploy latest commit to apply new course/student deletion features.
+- Current student submission flow supports a single attachment per assignment submission.
+- Redeploy latest commit to apply file-view and grade-table layout fixes.

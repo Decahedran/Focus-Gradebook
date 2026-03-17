@@ -41,7 +41,8 @@
     <% if (!assignment.submissions.length) { %>
       <p class="small">No submissions yet.</p>
     <% } else { %>
-      <table class="table">
+      <div class="table-wrap">
+      <table class="table submissions-table">
         <thead>
           <tr>
             <th>Student</th>
@@ -56,7 +57,7 @@
               <td><%= sub.student.email %></td>
               <td><a href="/uploads/<%= sub.storedFileName %>"><%= sub.originalFileName %></a></td>
               <td><%= sub.submittedAt.toLocaleString() %></td>
-              <td>
+              <td class="grade-cell">
                 <form method="POST" action="/professor/submissions/<%= sub.id %>/grade" enctype="multipart/form-data">
                   <input type="number" step="0.01" name="pointsEarnedRaw" placeholder="Raw points" required value="<%= sub.grade?.pointsEarnedRaw ?? '' %>" />
                   <textarea name="feedback" placeholder="Feedback"><%= sub.grade?.feedback ?? '' %></textarea>
@@ -75,6 +76,7 @@
           <% }) %>
         </tbody>
       </table>
+      </div>
     <% } %>
   </section>
 </div>

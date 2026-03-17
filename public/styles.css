@@ -14,6 +14,9 @@ a.button-link { display: inline-block; text-decoration: none; background: #1f3a8
 ul { padding-left: 1.15rem; }
 .muted { color: #dde3ff; margin: 0; }
 .error { background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: .7rem; border-radius: 8px; margin: .7rem 0; }
-.table { width: 100%; border-collapse: collapse; }
+.table-wrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; min-width: 860px; }
 .table th, .table td { border-bottom: 1px solid #ddd; text-align: left; padding: .45rem; vertical-align: top; }
+.submissions-table th:nth-child(4), .submissions-table td:nth-child(4) { min-width: 320px; }
+.grade-cell form { min-width: 300px; }
 .small { font-size: .9rem; color: #444; }
