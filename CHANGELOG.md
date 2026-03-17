@@ -74,5 +74,9 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 - `npx prisma generate` passes with client output in `node_modules/@prisma/client`
 - `npm run build` passes after Prisma import/runtime hotfix
 
+### Fixed
+- Patched Render build command to install dev dependencies during build (`npm ci --include=dev`) so TypeScript type packages are available
+- Resolves compile-time failures for missing `@types/*` modules on Render
+
 ### Notes
-- Repository push + Blueprint init completed; redeploy required to apply hotfix commit.
+- Previous failed deploy was on older commit (`b5c08db`). Redeploy latest commit after this fix.
