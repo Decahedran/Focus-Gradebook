@@ -16,6 +16,10 @@ const pgPool = new pg.Pool({ connectionString: env.DATABASE_URL });
 
 export const app = express();
 
+if (env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 app.set("view engine", "ejs");
 app.set("views", path.join(process.cwd(), "src/views"));
 
@@ -24,6 +28,7 @@ app.use(express.static(path.join(process.cwd(), "public")));
 
 app.use(
   session({
+    proxy: env.NODE_ENV === "production",
     store: new PostgresStore({
       pool: pgPool,
       tableName: "user_sessions",

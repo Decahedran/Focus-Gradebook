@@ -102,4 +102,5 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Applied resilience fix by moving TS build-time packages to `dependencies`
 - ✅ Local build validated after dependency scope change
 - ✅ Fixed Prisma runtime initialization crash on Render (adapter-based client options)
-- ⏳ Next: redeploy latest commit and verify service boot
+- ✅ Fixed production session/cookie behavior for Render proxy setup
+- ⏳ Next: redeploy latest commit and verify login flow reaches dashboard

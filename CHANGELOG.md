@@ -93,5 +93,14 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 ### Verified
 - `npm run build` passes after Prisma adapter initialization fix
 
+### Fixed
+- Resolved production login/session persistence issue behind Render proxy
+- Enabled Express proxy trust in production (`app.set('trust proxy', 1)`)
+- Enabled session proxy awareness (`proxy: true` in session config for production)
+- Fix ensures secure session cookies are properly set when TLS terminates at Render
+
+### Verified
+- `npm run build` passes after session/proxy configuration fix
+
 ### Notes
-- Redeploy latest commit to apply runtime startup fix.
+- Redeploy latest commit to apply login/session fix.
