@@ -1,0 +1,61 @@
+<%- include('../partials/header', { title: 'Course' }) %>
+<h2><%= course.code %> — <%= course.name %></h2>
+<p><a class="button-link" href="/professor/dashboard">Back to Dashboard</a></p>
+
+<div class="grid">
+  <section class="card">
+    <h3>Enroll Student</h3>
+    <form method="POST" action="/professor/courses/<%= course.id %>/enrollments">
+      <label>Student</label>
+      <select name="studentId" required>
+        <option value="">Select student</option>
+        <% allStudents.forEach((s) => { %>
+          <option value="<%= s.id %>"><%= s.email %></option>
+        <% }) %>
+      </select>
+      <button type="submit">Enroll</button>
+    </form>
+
+    <h4>Enrolled Students</h4>
+    <ul>
+      <% course.enrollments.forEach((enrollment) => { %>
+        <li><%= enrollment.student.email %></li>
+      <% }) %>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Create Assignment</h3>
+    <form method="POST" action="/professor/courses/<%= course.id %>/assignments">
+      <label>Title</label>
+      <input name="title" required />
+      <label>Description</label>
+      <textarea name="description" required></textarea>
+      <label>Points Value</label>
+      <input type="number" name="pointsValue" min="1" required />
+      <label>Extra Points Possible (optional)</label>
+      <input type="number" name="extraPointsPossible" min="0" />
+      <label>Due Date & Time</label>
+      <input type="datetime-local" name="dueAt" required />
+      <button type="submit">Create Assignment</button>
+    </form>
+  </section>
+</div>
+
+<section class="card" style="margin-top:1rem;">
+  <h3>Assignments</h3>
+  <% if (!course.assignments.length) { %>
+    <p class="small">No assignments yet.</p>
+  <% } else { %>
+    <ul>
+      <% course.assignments.forEach((a) => { %>
+        <li>
+          <strong><%= a.title %></strong> (Due: <%= a.dueAt.toLocaleString() %>)
+          <br />
+          <a class="button-link" href="/professor/assignments/<%= a.id %>">View Submissions & Grade</a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+<%- include('../partials/footer') %>

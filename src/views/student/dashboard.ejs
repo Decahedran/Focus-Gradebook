@@ -1,0 +1,72 @@
+<%- include('../partials/header', { title: 'Student Dashboard' }) %>
+<h2>My Courses & Assignments</h2>
+
+<% if (!courses.length) { %>
+  <section class="card">
+    <p class="small">You are not enrolled in any courses yet.</p>
+  </section>
+<% } %>
+
+<% courses.forEach((course) => { %>
+  <section class="card" style="margin-bottom:1rem;">
+    <h3><%= course.code %> — <%= course.name %></h3>
+
+    <% if (!course.assignments.length) { %>
+      <p class="small">No assignments in this course yet.</p>
+    <% } else { %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Assignment</th>
+            <th>Due</th>
+            <th>Submission</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% course.assignments.forEach((a) => { %>
+            <% const mySubmission = a.submissions[0]; %>
+            <tr>
+              <td>
+                <strong><%= a.title %></strong>
+                <p class="small"><%= a.description %></p>
+                <p class="small">Points: <%= a.pointsValue %> <% if (a.extraPointsPossible !== null && a.extraPointsPossible !== undefined) { %>(+<%= a.extraPointsPossible %> extra)<% } %></p>
+              </td>
+              <td>
+                <%= a.effectiveDueAt.toLocaleString() %>
+                <% if (a.extension) { %>
+                  <p class="small">Extension penalty: <%= a.extension.extensionPenaltyPercent %>%</p>
+                <% } %>
+              </td>
+              <td>
+                <% if (mySubmission) { %>
+                  Submitted: <a href="/uploads/<%= mySubmission.storedFileName %>"><%= mySubmission.originalFileName %></a>
+                <% } else if (a.canSubmit) { %>
+                  <form method="POST" action="/student/assignments/<%= a.id %>/submit" enctype="multipart/form-data">
+                    <input type="file" name="submissionFile" required />
+                    <button type="submit">Submit</button>
+                  </form>
+                <% } else { %>
+                  <span class="small">Submission closed</span>
+                <% } %>
+              </td>
+              <td>
+                <% if (mySubmission?.grade) { %>
+                  <p>Raw: <%= mySubmission.grade.pointsEarnedRaw %></p>
+                  <p>Final: <%= mySubmission.grade.pointsEarnedFinal %></p>
+                  <% if (mySubmission.grade.feedback) { %><p class="small"><%= mySubmission.grade.feedback %></p><% } %>
+                  <% if (mySubmission.grade.gradedStoredFileName) { %>
+                    <a href="/uploads/<%= mySubmission.grade.gradedStoredFileName %>">View graded file</a>
+                  <% } %>
+                <% } else { %>
+                  <span class="small">Not graded yet</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </section>
+<% }) %>
+<%- include('../partials/footer') %>

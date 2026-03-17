@@ -1,0 +1,81 @@
+<%- include('../partials/header', { title: 'Assignment' }) %>
+<h2><%= assignment.title %></h2>
+<p class="small">Course: <%= assignment.course.code %> | Due: <%= assignment.dueAt.toLocaleString() %></p>
+<p><a class="button-link" href="/professor/courses/<%= assignment.course.id %>">Back to Course</a></p>
+
+<div class="grid">
+  <section class="card">
+    <h3>Grant / Update Extension</h3>
+    <form method="POST" action="/professor/assignments/<%= assignment.id %>/extensions">
+      <label>Student</label>
+      <select name="studentId" required>
+        <option value="">Select student</option>
+        <% enrollments.forEach((e) => { %>
+          <option value="<%= e.student.id %>"><%= e.student.email %></option>
+        <% }) %>
+      </select>
+      <label>Extended Due Date & Time</label>
+      <input type="datetime-local" name="extendedDueAt" required />
+      <label>Penalty % (0-100)</label>
+      <input type="number" name="extensionPenaltyPercent" min="0" max="100" value="0" required />
+      <button type="submit">Save Extension</button>
+    </form>
+
+    <h4>Current Extensions</h4>
+    <ul>
+      <% if (!extensions.length) { %>
+        <li class="small">None</li>
+      <% } %>
+      <% extensions.forEach((ext) => { %>
+        <li>
+          studentId: <%= ext.studentId %>
+          <br />
+          until: <%= ext.extendedDueAt.toLocaleString() %> | penalty: <%= ext.extensionPenaltyPercent %>%
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Submissions</h3>
+    <% if (!assignment.submissions.length) { %>
+      <p class="small">No submissions yet.</p>
+    <% } else { %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Submitted File</th>
+            <th>Submitted At</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% assignment.submissions.forEach((sub) => { %>
+            <tr>
+              <td><%= sub.student.email %></td>
+              <td><a href="/uploads/<%= sub.storedFileName %>"><%= sub.originalFileName %></a></td>
+              <td><%= sub.submittedAt.toLocaleString() %></td>
+              <td>
+                <form method="POST" action="/professor/submissions/<%= sub.id %>/grade" enctype="multipart/form-data">
+                  <input type="number" step="0.01" name="pointsEarnedRaw" placeholder="Raw points" required value="<%= sub.grade?.pointsEarnedRaw ?? '' %>" />
+                  <textarea name="feedback" placeholder="Feedback"><%= sub.grade?.feedback ?? '' %></textarea>
+                  <label>Upload graded file (optional)</label>
+                  <input type="file" name="gradedFile" />
+                  <button type="submit">Save Grade</button>
+                  <% if (sub.grade) { %>
+                    <p class="small">Final: <%= sub.grade.pointsEarnedFinal %> pts</p>
+                    <% if (sub.grade.gradedStoredFileName) { %>
+                      <a href="/uploads/<%= sub.grade.gradedStoredFileName %>">View graded file</a>
+                    <% } %>
+                  <% } %>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </section>
+</div>
+<%- include('../partials/footer') %>

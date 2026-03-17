@@ -1,0 +1,11 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+# Build artifacts
+/dist
+
+# Local file uploads
+/uploads
+
+/src/generated/prisma

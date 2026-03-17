@@ -1,0 +1,74 @@
+<%- include('../partials/header', { title: 'Professor Dashboard' }) %>
+<h2>Professor Dashboard</h2>
+<div class="grid">
+  <section class="card">
+    <h3>Create Course</h3>
+    <form method="POST" action="/professor/courses">
+      <label>Course Name</label>
+      <input name="name" required />
+      <label>Course Code</label>
+      <input name="code" required />
+      <button type="submit">Create Course</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Create Student Account</h3>
+    <form method="POST" action="/professor/students">
+      <label>Student Email</label>
+      <input type="email" name="email" required />
+      <label>Temporary Password</label>
+      <input type="text" name="temporaryPassword" required minlength="8" />
+      <button type="submit">Create Student</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h3>Create Professor Account</h3>
+    <form method="POST" action="/professor/professors">
+      <label>Professor Email</label>
+      <input type="email" name="email" required />
+      <label>Temporary Password</label>
+      <input type="text" name="temporaryPassword" required minlength="8" />
+      <button type="submit">Create Professor</button>
+    </form>
+  </section>
+</div>
+
+<div class="grid" style="margin-top:1rem;">
+  <section class="card">
+    <h3>Your Courses</h3>
+    <% if (!courses.length) { %>
+      <p class="small">No courses yet.</p>
+    <% } else { %>
+      <ul>
+        <% courses.forEach((course) => { %>
+          <li>
+            <strong><%= course.code %></strong> - <%= course.name %>
+            <br />
+            <a class="button-link" href="/professor/courses/<%= course.id %>">Open Course</a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
+
+  <section class="card">
+    <h3>Student Directory</h3>
+    <ul>
+      <% students.forEach((s) => { %>
+        <li><%= s.email %></li>
+      <% }) %>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>Professor Directory</h3>
+    <ul>
+      <% professors.forEach((p) => { %>
+        <li><%= p.email %></li>
+      <% }) %>
+    </ul>
+  </section>
+</div>
+<%- include('../partials/footer') %>

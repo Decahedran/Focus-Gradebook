@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> - Focus Gradebook</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Focus Gradebook</h1>
+      <% if (currentUser) { %>
+        <p class="muted"><%= currentUser.email %> (<%= currentUser.role %>)</p>
+      <% } %>
+    </div>
+    <% if (currentUser) { %>
+      <form method="POST" action="/logout">
+        <button type="submit" class="secondary">Log out</button>
+      </form>
+    <% } %>
+  </header>
+  <main class="container">

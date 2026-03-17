@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  PROFESSOR
+  STUDENT
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  email              String    @unique
+  passwordHash       String
+  role               UserRole
+  mustChangePassword Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  coursesOwned       Course[]  @relation("CourseProfessor")
+  enrollments        CourseEnrollment[]
+  submissions        Submission[]
+  gradesGiven        Grade[]   @relation("GradedByProfessor")
+  createdExtensions  AssignmentExtension[] @relation("ExtensionCreator")
+  studentExtensions  AssignmentExtension[] @relation("ExtensionStudent")
+}
+
+model Course {
+  id          String             @id @default(cuid())
+  name        String
+  code        String
+  professorId String
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  professor   User               @relation("CourseProfessor", fields: [professorId], references: [id], onDelete: Cascade)
+  assignments Assignment[]
+  enrollments CourseEnrollment[]
+
+  @@unique([code, professorId])
+}
+
+model CourseEnrollment {
+  id        String   @id @default(cuid())
+  courseId  String
+  studentId String
+  createdAt DateTime @default(now())
+
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, studentId])
+}
+
+model Assignment {
+  id                  String   @id @default(cuid())
+  courseId            String
+  title               String
+  description         String
+  pointsValue         Int
+  extraPointsPossible Int?
+  dueAt               DateTime
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  course              Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  submissions         Submission[]
+  extensions          AssignmentExtension[]
+}
+
+model AssignmentExtension {
+  id                      String   @id @default(cuid())
+  assignmentId            String
+  studentId               String
+  extendedDueAt           DateTime
+  extensionPenaltyPercent Int      @default(0)
+  createdByProfessorId    String
+  createdAt               DateTime @default(now())
+
+  assignment              Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student                 User       @relation("ExtensionStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  createdByProfessor      User       @relation("ExtensionCreator", fields: [createdByProfessorId], references: [id], onDelete: Cascade)
+
+  @@unique([assignmentId, studentId])
+}
+
+model Submission {
+  id                String   @id @default(cuid())
+  assignmentId      String
+  studentId         String
+  originalFileName  String
+  storedFileName    String
+  mimeType          String
+  submittedAt       DateTime @default(now())
+
+  assignment        Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student           User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  grade             Grade?
+
+  @@unique([assignmentId, studentId])
+}
+
+model Grade {
+  id                   String   @id @default(cuid())
+  submissionId         String   @unique
+  pointsEarnedRaw      Float
+  pointsEarnedFinal    Float
+  feedback             String?
+  gradedOriginalName   String?
+  gradedStoredFileName String?
+  gradedMimeType       String?
+  gradedAt             DateTime @default(now())
+  gradedByProfessorId  String
+
+  submission           Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  gradedByProfessor    User       @relation("GradedByProfessor", fields: [gradedByProfessorId], references: [id], onDelete: Cascade)
+}

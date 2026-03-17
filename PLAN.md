@@ -1,0 +1,99 @@
+# Focus Gradebook — Running Plan
+
+_Last updated: 2026-03-17_
+
+## 1) Goal
+Build a deployable Gradebook web app (Render-ready) with:
+- Professor accounts
+- Student accounts
+- Course management
+- Assignment management per course
+- Course roster assignment (students to courses)
+- Submission uploads (student)
+- Grading + graded file uploads (professor)
+- Student grade + graded file visibility
+
+## 2) Chosen Stack (confirmed)
+- **Backend**: Node.js + Express + TypeScript
+- **DB**: PostgreSQL + Prisma ORM
+- **Auth**: Session-based auth + RBAC
+- **Storage**: Local disk for MVP (`uploads/`) to stay free/simple on Render-compatible deploys
+- **Frontend**: Server-rendered EJS + clean, student-first UI (simple + professional)
+- **Deploy**: Render Web Service + Render Postgres
+
+## 3) Scope Breakdown
+### Phase 0 — Foundation
+- [x] Project scaffold
+- [x] Env config and secrets handling
+- [x] PLAN + CHANGELOG living docs
+
+### Phase 1 — Auth + Roles
+- [x] Bootstrap initial professor account
+- [x] Professor login
+- [x] Professor can create other professor accounts
+- [x] Professor can create student accounts with temporary passwords
+- [x] Student forced to change password on first login
+- [x] RBAC middleware and protected routes
+
+### Phase 2 — Academic Core
+- [x] Course CRUD (create + view; strictly professor-owned)
+- [x] Assign students to courses
+- [x] Assignment CRUD (create + view) with fields:
+  - title (required)
+  - description (required)
+  - pointsValue (required)
+  - extraPointsPossible (optional)
+  - dueAt (required date+time)
+
+### Phase 3 — Submission + Grading
+- [x] Student assignment submission upload (one submission per assignment)
+- [x] Submission window enforcement (cannot submit after deadline)
+- [x] Professor can add assignment extension with:
+  - extendedDueAt (new date+time)
+  - extensionPenaltyPercent (grade reduction)
+- [x] Extension-aware submission logic (submission re-opened until extension deadline)
+- [x] Professor grading workflow
+- [x] Professor graded-file upload
+- [x] Student view grade + graded file
+
+### Phase 4 — UX + Deployment
+- [x] Basic dashboard UIs (prof/student)
+- [x] Error handling + validation
+- [x] Seed/bootstrap strategy (env-based default professor)
+- [x] Render deploy config + docs
+
+## 4) Data Model Draft
+- User(id, email, passwordHash, role[PROFESSOR|STUDENT], mustChangePassword, createdAt)
+- Course(id, name, code, professorId)
+- CourseEnrollment(id, courseId, studentId)
+- Assignment(id, courseId, title, description, pointsValue, extraPointsPossible?, dueAt)
+- AssignmentExtension(id, assignmentId, studentId, extendedDueAt, extensionPenaltyPercent, createdByProfessorId)
+- Submission(id, assignmentId, studentId, submittedFilePath, submittedAt)
+- Grade(id, submissionId, pointsEarnedRaw, pointsEarnedFinal, feedback?, gradedFilePath?, gradedAt, gradedByProfessorId)
+
+## 5) Key Design Principles
+- DRY: shared validation and auth guards
+- YAGNI: no over-engineering (single professor tenant first unless required)
+- SOLID: clear service/repository boundaries
+- Zen of Python vibes: explicit > implicit, simple > complex
+
+## 6) Confirmed Product Decisions
+1. Student accounts are created by professor with temporary passwords.
+2. Student must reset password on first login.
+3. Multiple professors are supported; each professor only manages courses they create.
+4. Single submission per student per assignment.
+5. Assignment due date/time is required.
+6. After due date, submission is blocked unless professor grants extension.
+7. Extension includes new due date/time + grade reduction rule.
+8. Accept a variety of file types (including images/videos) for uploads.
+9. UI should be intuitive, simple, and professional, with student-friendly navigation.
+
+## 7) Current Status
+- ✅ Workspace located
+- ✅ Project root created
+- ✅ Plan initialized
+- ✅ Requirements clarified
+- ✅ Full MVP scaffold implemented (auth, courses, assignments, submissions, grading, extensions)
+- ✅ TypeScript build passing
+- ✅ Render deployment wiring completed (`render.yaml`, migration files, deploy scripts, README)
+- ⏳ Next: push repo to GitHub + create Render Blueprint deployment + set professor seed credentials
