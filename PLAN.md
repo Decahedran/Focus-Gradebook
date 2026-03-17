@@ -108,4 +108,5 @@ Build a deployable Gradebook web app (Render-ready) with:
 - ✅ Added multi-file student submission support (up to 10 attachments per submission)
 - ✅ Added attachment-aware file access checks and display in professor/student dashboards
 - ✅ Added configurable persistent upload directory (`UPLOAD_DIR`) + Render disk mount config
-- ⏳ Next: redeploy latest commit and verify persistent file access across restarts
+- ✅ Added legacy upload-path fallback for file retrieval compatibility
+- ⏳ Next: redeploy latest commit and verify old/new file retrieval behavior

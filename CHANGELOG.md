@@ -129,6 +129,9 @@ All notable changes to **Focus Gradebook** will be documented in this file.
 - Updated file serving route to read from configured upload directory
 - Added Render persistent disk mount configuration for uploads (`focus-gradebook-uploads`)
 
+### Fixed
+- Added legacy upload path fallback when serving files (`UPLOAD_DIR` first, then `./uploads`) to recover files from older path conventions after deployment changes
+
 ### Notes
-- Existing files uploaded before persistent disk setup may be unavailable (404) because they were stored on ephemeral filesystem.
+- Existing files uploaded before persistent disk setup may still be unavailable (404) if physically lost from ephemeral storage.
 - Redeploy latest commit and submit new files after disk mount to verify durable access.

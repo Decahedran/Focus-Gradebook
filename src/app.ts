@@ -107,13 +107,16 @@ app.get("/uploads/:filename", requireAuth, async (req, res) => {
     return;
   }
 
-  const absolutePath = path.join(uploadDir, filename);
-  if (!fs.existsSync(absolutePath)) {
+  const primaryPath = path.join(uploadDir, filename);
+  const legacyPath = path.join(process.cwd(), "uploads", filename);
+  const resolvedPath = fs.existsSync(primaryPath) ? primaryPath : fs.existsSync(legacyPath) ? legacyPath : null;
+
+  if (!resolvedPath) {
     res.status(404).render("error", { message: "File record exists, but file is missing from storage." });
     return;
   }
 
-  res.sendFile(absolutePath, (error) => {
+  res.sendFile(resolvedPath, (error) => {
     if (error) {
       console.error("sendFile error", error);
       if (!res.headersSent) {
